@@ -1,7 +1,0 @@
-default: build run
-
-build:
-  rustc solution.rs -C opt-level=2 -o ../bin/solution
-
-run:
-  ../bin/solution
