@@ -5,21 +5,15 @@ fn part1(input: String) -> u32 {
     for line in input.lines() {
         let mut num = 0;
         for c in line.chars() {
-            match c.to_digit(10) {
-                Some(n) => {
-                    num += 10 * n;
-                    break;
-                }
-                None => {}
+            if let Some(n) = c.to_digit(10) {
+                num += 10 * n;
+                break;
             }
         }
         for c in line.chars().rev() {
-            match c.to_digit(10) {
-                Some(n) => {
-                    num += n;
-                    break;
-                }
-                None => {}
+            if let Some(n) = c.to_digit(10) {
+                num += n;
+                break;
             }
         }
         nums.push(num);
@@ -48,49 +42,37 @@ fn part2(input: String) -> u32 {
         let len = line.len();
         'outer: for a in 0..len {
             for b in 1..=5 {
-                match &line.get(a..a + b) {
-                    Some(sub) => {
-                        match sub.chars().next().unwrap().to_digit(10) {
-                            Some(n) => {
-                                num += 10 * n;
-                                // dbg!(num, line);
-                                break 'outer;
-                            }
-                            None => {}
-                        }
-
-                        let parsed = to_num(sub);
-                        if parsed != 0 {
-                            num += 10 * parsed;
-                            // dbg!(num, sub, line);
-                            break 'outer;
-                        }
+                if let Some(sub) = &line.get(a..a + b) {
+                    if let Some(n) = sub.chars().next().unwrap().to_digit(10) {
+                        num += 10 * n;
+                        // dbg!(num, line);
+                        break 'outer;
                     }
-                    None => {}
+
+                    let parsed = to_num(sub);
+                    if parsed != 0 {
+                        num += 10 * parsed;
+                        // dbg!(num, sub, line);
+                        break 'outer;
+                    }
                 }
             }
         }
         'outer: for a in 0..len {
             for b in 1..=5 {
-                match &line.chars().rev().collect::<String>().get(a..b + a) {
-                    Some(sub) => {
-                        match sub.chars().next().unwrap().to_digit(10) {
-                            Some(n) => {
-                                num += n;
-                                // dbg!(num, line);
-                                break 'outer;
-                            }
-                            None => {}
-                        }
-                        let sub = sub.chars().to_owned().rev().collect::<String>();
-                        let parsed = to_num(&sub);
-                        if parsed != 0 {
-                            num += parsed;
-                            // dbg!(num, sub, line);
-                            break 'outer;
-                        }
+                if let Some(sub) = &line.chars().rev().collect::<String>().get(a..b + a) {
+                    if let Some(n) = sub.chars().next().unwrap().to_digit(10) {
+                        num += n;
+                        // dbg!(num, line);
+                        break 'outer;
                     }
-                    None => {}
+                    let sub = sub.chars().to_owned().rev().collect::<String>();
+                    let parsed = to_num(&sub);
+                    if parsed != 0 {
+                        num += parsed;
+                        // dbg!(num, sub, line);
+                        break 'outer;
+                    }
                 }
             }
         }
