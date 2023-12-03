@@ -25,7 +25,7 @@ fn part1(input: Rc<String>) -> u32 {
     pass
 }
 
-fn part2(input: std::rc::Rc<String>) -> u32 {
+fn part2(input: Rc<String>) -> u32 {
     let mut nums = vec![];
     for line in input.lines() {
         let mut greens = vec![];
